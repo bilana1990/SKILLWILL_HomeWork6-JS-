@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>skillwill HomeWork 6</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- 1.შექმენი button, რომელზე დაწკაპების
+შემდეგაც გაიხსნება მოდალი და მოდალის
+უკან შავი/გამჭვირვალე background
+● 2.შექმენი input და button
+● 3.input-ში მომხმარებელი ჩაწერს ფერს და
+button ღილაკზე დაწკაპების შემდეგ body-ს
+background შეიცვლება ჩაწერილ ფერად
+● 4.(ფერები რომლის ჩაწერაც შეუძლია: red,
+blue, green, black, white)
+● 5.თუ სხვა ფერი ჩაწერა, გამოუტანე
+შეტყობინება alert-ის საშუალებით -->
+
+    <!-- 1. დავალება -->
+    <div class="first_homework">
+      <button id="btn1">Open Modal</button>
+      <button id="btn2">Close Modal</button>
+
+      <div class="modal">
+        <input
+          type="text"
+          name="color"
+          id="colorinput"
+          placeholder="Write a Color"
+        />
+        <input type="submit" id="submit" />
+
+        <p id="errorMessage" style="color: red; display: none">
+          Invalid color! Please enter red, blue, green, black, or white.
+        </p>
+      </div>
+    </div>
+
+    <!-- 2. დავალება -->
+    <div class="second_homework">
+      <form id="numbersForm">
+        <input
+          type="text"
+          id="numbersInput"
+          placeholder="Enter numbers separated by commas"
+        />
+        <button type="submit" id="calculateAverageBtn">
+          Calculate Average
+        </button>
+      </form>
+      <p id="resultMessage" style="color: green; display: none">
+        Average: <span id="averageValue"></span>
+      </p>
+      <p id="errorMessage" style="color: red; display: none">
+        Please enter valid numbers separated by commas.
+      </p>
+    </div>
+
+    <script>
+      // 2.დავალება
+      var numbersForm = document.getElementById("numbersForm");
+      var numbersInput = document.getElementById("numbersInput");
+      var calculateAverageBtn = document.getElementById("calculateAverageBtn");
+      var resultMessage = document.getElementById("resultMessage");
+      var averageValue = document.getElementById("averageValue");
+      var errorMessage = document.getElementById("errorMessage");
+
+      // Add an event listener to the form to calculate the average
+      numbersForm.onsubmit = function (event) {
+        event.preventDefault(); // Prevent the form from submitting
+
+        // Get the value from the input and split it into an array of strings
+        var numbersString = numbersInput.value;
+        var numbersArray = numbersString.split(":");
+
+        // Convert the array of strings to an array of numbers
+        var numbers = numbersArray.map(function (num) {
+          return parseFloat(num.trim());
+        });
+
+        // Check if all elements in the numbers array are valid numbers
+        var allNumbersValid = numbers.every(function (num) {
+          return !isNaN(num);
+        });
+
+        if (allNumbersValid && numbers.length > 0) {
+          // Calculate the average
+          var sum = numbers.reduce(function (acc, num) {
+            return acc + num;
+          }, 0);
+          var average = sum / numbers.length;
+
+          // Display the average
+          averageValue.textContent = average.toFixed(2); // Round to 2 decimal places
+          resultMessage.style.display = "block";
+          errorMessage.style.display = "none";
+        } else {
+          // Display an error message if the input is invalid
+          resultMessage.style.display = "none";
+          errorMessage.style.display = "block";
+        }
+      };
+    </script>
+
+    <script>
+      // 1. დავალება
+      let openBtn = document.querySelector("#btn1");
+      let closeBtn = document.querySelector("#btn2");
+      let modalDiv = document.querySelector(".modal");
+
+      openBtn.addEventListener("click", show);
+      closeBtn.addEventListener("click", close);
+
+      function show() {
+        modalDiv.style.height = "500px";
+        modalDiv.style.transition = ".3s";
+
+        openBtn.style.visibility = "hidden";
+        closeBtn.style.visibility = "visible";
+      }
+
+      function close() {
+        modalDiv.style.height = "0px";
+        modalDiv.style.transition = ".3s";
+
+        openBtn.style.visibility = "visible";
+        closeBtn.style.visibility = "hidden";
+      }
+
+      let writeColor = document.getElementById("colorinput");
+      let submitBtn = document.getElementById("submit");
+
+      let allowedColors = ["red", "blue", "green", "black", "white"];
+
+      submitBtn.onclick = function () {
+        // let color = writeColor.value;
+
+        let isValidColor = false;
+
+        while (!isValidColor) {
+          let color = writeColor.value;
+
+          if (allowedColors.includes(color)) {
+            document.body.style.backgroundColor = color;
+            errorMessage.style.display = "none";
+            isValidColor = true;
+          } else {
+            errorMessage.style.display = "block";
+            alert("Wrong color");
+            return;
+          }
+        }
+      };
+    </script>
+  </body>
+</html>
